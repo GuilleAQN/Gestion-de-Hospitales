@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Primer_Parcial.DTOs.Diagnostico;
 using Primer_Parcial.Models;
 
 namespace Primer_Parcial.Controller
@@ -15,9 +17,12 @@ namespace Primer_Parcial.Controller
     {
         private readonly HospitalDbContext _context;
 
-        public DiagnosticosController(HospitalDbContext context)
+        public IMapper mapper { get; }
+
+        public DiagnosticosController(HospitalDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Diagnosticos
@@ -44,8 +49,10 @@ namespace Primer_Parcial.Controller
         // PUT: api/Diagnosticos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiagnostico(int id, Diagnostico diagnostico)
+        public async Task<IActionResult> PutDiagnostico(int id, DiagnosticoUpdateDTO diagnosticoDto)
         {
+            var diagnostico = mapper.Map<Diagnostico>(diagnosticoDto);
+
             if (id != diagnostico.IdDiagnostico)
             {
                 return BadRequest();
@@ -59,7 +66,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiagnosticoExists(id))
+                if (!await DiagnosticoExists(id))
                 {
                     return NotFound();
                 }
@@ -99,9 +106,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool DiagnosticoExists(int id)
+        private async Task<bool> DiagnosticoExists(int id)
         {
-            return _context.Diagnosticos.Any(e => e.IdDiagnostico == id);
+            return await _context.Diagnosticos.AnyAsync(e => e.IdDiagnostico == id);
         }
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Primer_Parcial.DTOs.Habitacion;
 using Primer_Parcial.Models;
 
 namespace Primer_Parcial.Controller
@@ -15,9 +17,12 @@ namespace Primer_Parcial.Controller
     {
         private readonly HospitalDbContext _context;
 
-        public HabitacionesController(HospitalDbContext context)
+        public IMapper mapper { get; }
+
+        public HabitacionesController(HospitalDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Habitaciones
@@ -44,14 +49,16 @@ namespace Primer_Parcial.Controller
         // PUT: api/Habitaciones/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHabitacione(int id, Habitacione habitacione)
+        public async Task<IActionResult> PutHabitacione(int id, HabitacionUpdateDTO habitacionDto)
         {
-            if (id != habitacione.IdHabitacion)
+            var habitacion = mapper.Map<Habitacione>(habitacionDto);
+
+            if (id != habitacion.IdHabitacion)
             {
                 return BadRequest();
             }
 
-            _context.Entry(habitacione).State = EntityState.Modified;
+            _context.Entry(habitacion).State = EntityState.Modified;
 
             try
             {
@@ -75,12 +82,14 @@ namespace Primer_Parcial.Controller
         // POST: api/Habitaciones
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Habitacione>> PostHabitacione(Habitacione habitacione)
+        public async Task<ActionResult<Habitacione>> PostHabitacione(HabitacionInsertDTO habitacionDto)
         {
-            _context.Habitaciones.Add(habitacione);
+            var habitacion = mapper.Map<Habitacione>(habitacionDto);
+
+            _context.Habitaciones.Add(habitacion);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHabitacione", new { id = habitacione.IdHabitacion }, habitacione);
+            return Ok(habitacion.IdHabitacion);
         }
 
         // DELETE: api/Habitaciones/5
