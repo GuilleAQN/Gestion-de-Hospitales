@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class CategoriasCitasController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public CategoriasCitasController(HospitalDbContext context)
+        public CategoriasCitasController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/CategoriasCitas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriasCita>>> GetCategoriasCitas()
         {
-            return await _context.CategoriasCitas.ToListAsync();
+            return await context.CategoriasCitas.ToListAsync();
         }
 
         // GET: api/CategoriasCitas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriasCita>> GetCategoriasCita(int id)
         {
-            var categoriasCita = await _context.CategoriasCitas.FindAsync(id);
+            var categoriasCita = await context.CategoriasCitas.FindAsync(id);
 
             if (categoriasCita == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(categoriasCita).State = EntityState.Modified;
+            context.Entry(categoriasCita).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<CategoriasCita>> PostCategoriasCita(CategoriasCita categoriasCita)
         {
-            _context.CategoriasCitas.Add(categoriasCita);
-            await _context.SaveChangesAsync();
+            context.CategoriasCitas.Add(categoriasCita);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetCategoriasCita", new { id = categoriasCita.IdCategoriaCita }, categoriasCita);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoriasCita(int id)
         {
-            var categoriasCita = await _context.CategoriasCitas.FindAsync(id);
+            var categoriasCita = await context.CategoriasCitas.FindAsync(id);
             if (categoriasCita == null)
             {
                 return NotFound();
             }
 
-            _context.CategoriasCitas.Remove(categoriasCita);
-            await _context.SaveChangesAsync();
+            context.CategoriasCitas.Remove(categoriasCita);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool CategoriasCitaExists(int id)
         {
-            return _context.CategoriasCitas.Any(e => e.IdCategoriaCita == id);
+            return context.CategoriasCitas.Any(e => e.IdCategoriaCita == id);
         }
     }
 }

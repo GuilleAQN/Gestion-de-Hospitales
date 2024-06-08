@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class EstadosController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public EstadosController(HospitalDbContext context)
+        public EstadosController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Estados
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Estado>>> GetEstados()
         {
-            return await _context.Estados.ToListAsync();
+            return await context.Estados.ToListAsync();
         }
 
         // GET: api/Estados/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Estado>> GetEstado(int id)
         {
-            var estado = await _context.Estados.FindAsync(id);
+            var estado = await context.Estados.FindAsync(id);
 
             if (estado == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(estado).State = EntityState.Modified;
+            context.Entry(estado).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Estado>> PostEstado(Estado estado)
         {
-            _context.Estados.Add(estado);
-            await _context.SaveChangesAsync();
+            context.Estados.Add(estado);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetEstado", new { id = estado.IdEstado }, estado);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstado(int id)
         {
-            var estado = await _context.Estados.FindAsync(id);
+            var estado = await context.Estados.FindAsync(id);
             if (estado == null)
             {
                 return NotFound();
             }
 
-            _context.Estados.Remove(estado);
-            await _context.SaveChangesAsync();
+            context.Estados.Remove(estado);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool EstadoExists(int id)
         {
-            return _context.Estados.Any(e => e.IdEstado == id);
+            return context.Estados.Any(e => e.IdEstado == id);
         }
     }
 }

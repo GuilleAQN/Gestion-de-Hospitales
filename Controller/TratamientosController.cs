@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class TratamientosController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public TratamientosController(HospitalDbContext context)
+        public TratamientosController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Tratamientos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tratamiento>>> GetTratamientos()
         {
-            return await _context.Tratamientos.ToListAsync();
+            return await context.Tratamientos.ToListAsync();
         }
 
         // GET: api/Tratamientos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tratamiento>> GetTratamiento(int id)
         {
-            var tratamiento = await _context.Tratamientos.FindAsync(id);
+            var tratamiento = await context.Tratamientos.FindAsync(id);
 
             if (tratamiento == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(tratamiento).State = EntityState.Modified;
+            context.Entry(tratamiento).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Tratamiento>> PostTratamiento(Tratamiento tratamiento)
         {
-            _context.Tratamientos.Add(tratamiento);
-            await _context.SaveChangesAsync();
+            context.Tratamientos.Add(tratamiento);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetTratamiento", new { id = tratamiento.IdTratamiento }, tratamiento);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTratamiento(int id)
         {
-            var tratamiento = await _context.Tratamientos.FindAsync(id);
+            var tratamiento = await context.Tratamientos.FindAsync(id);
             if (tratamiento == null)
             {
                 return NotFound();
             }
 
-            _context.Tratamientos.Remove(tratamiento);
-            await _context.SaveChangesAsync();
+            context.Tratamientos.Remove(tratamiento);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool TratamientoExists(int id)
         {
-            return _context.Tratamientos.Any(e => e.IdTratamiento == id);
+            return context.Tratamientos.Any(e => e.IdTratamiento == id);
         }
     }
 }

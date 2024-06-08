@@ -15,13 +15,13 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class HabitacionesController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
 
-        public IMapper mapper { get; }
+        private readonly IMapper mapper;
 
         public HabitacionesController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
             this.mapper = mapper;
         }
 
@@ -29,14 +29,14 @@ namespace Primer_Parcial.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Habitacione>>> GetHabitaciones()
         {
-            return await _context.Habitaciones.ToListAsync();
+            return await context.Habitaciones.ToListAsync();
         }
 
         // GET: api/Habitaciones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Habitacione>> GetHabitacione(int id)
         {
-            var habitacione = await _context.Habitaciones.FindAsync(id);
+            var habitacione = await context.Habitaciones.FindAsync(id);
 
             if (habitacione == null)
             {
@@ -58,11 +58,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(habitacion).State = EntityState.Modified;
+            context.Entry(habitacion).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -86,8 +86,8 @@ namespace Primer_Parcial.Controller
         {
             var habitacion = mapper.Map<Habitacione>(habitacionDto);
 
-            _context.Habitaciones.Add(habitacion);
-            await _context.SaveChangesAsync();
+            context.Habitaciones.Add(habitacion);
+            await context.SaveChangesAsync();
 
             return Ok(habitacion.IdHabitacion);
         }
@@ -96,21 +96,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHabitacione(int id)
         {
-            var habitacione = await _context.Habitaciones.FindAsync(id);
+            var habitacione = await context.Habitaciones.FindAsync(id);
             if (habitacione == null)
             {
                 return NotFound();
             }
 
-            _context.Habitaciones.Remove(habitacione);
-            await _context.SaveChangesAsync();
+            context.Habitaciones.Remove(habitacione);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool HabitacioneExists(int id)
         {
-            return _context.Habitaciones.Any(e => e.IdHabitacion == id);
+            return context.Habitaciones.Any(e => e.IdHabitacion == id);
         }
     }
 }

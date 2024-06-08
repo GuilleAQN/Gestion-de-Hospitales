@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class EnfermerasController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public EnfermerasController(HospitalDbContext context)
+        public EnfermerasController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Enfermeras
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Enfermera>>> GetEnfermeras()
         {
-            return await _context.Enfermeras.ToListAsync();
+            return await context.Enfermeras.ToListAsync();
         }
 
         // GET: api/Enfermeras/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Enfermera>> GetEnfermera(int id)
         {
-            var enfermera = await _context.Enfermeras.FindAsync(id);
+            var enfermera = await context.Enfermeras.FindAsync(id);
 
             if (enfermera == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(enfermera).State = EntityState.Modified;
+            context.Entry(enfermera).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Enfermera>> PostEnfermera(Enfermera enfermera)
         {
-            _context.Enfermeras.Add(enfermera);
-            await _context.SaveChangesAsync();
+            context.Enfermeras.Add(enfermera);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetEnfermera", new { id = enfermera.IdEnfermera }, enfermera);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEnfermera(int id)
         {
-            var enfermera = await _context.Enfermeras.FindAsync(id);
+            var enfermera = await context.Enfermeras.FindAsync(id);
             if (enfermera == null)
             {
                 return NotFound();
             }
 
-            _context.Enfermeras.Remove(enfermera);
-            await _context.SaveChangesAsync();
+            context.Enfermeras.Remove(enfermera);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool EnfermeraExists(int id)
         {
-            return _context.Enfermeras.Any(e => e.IdEnfermera == id);
+            return context.Enfermeras.Any(e => e.IdEnfermera == id);
         }
     }
 }

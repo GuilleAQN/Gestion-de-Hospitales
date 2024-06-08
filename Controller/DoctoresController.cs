@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class DoctoresController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public DoctoresController(HospitalDbContext context)
+        public DoctoresController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Doctores
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Doctore>>> GetDoctores()
         {
-            return await _context.Doctores.ToListAsync();
+            return await context.Doctores.ToListAsync();
         }
 
         // GET: api/Doctores/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Doctore>> GetDoctore(int id)
         {
-            var doctore = await _context.Doctores.FindAsync(id);
+            var doctore = await context.Doctores.FindAsync(id);
 
             if (doctore == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(doctore).State = EntityState.Modified;
+            context.Entry(doctore).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Doctore>> PostDoctore(Doctore doctore)
         {
-            _context.Doctores.Add(doctore);
-            await _context.SaveChangesAsync();
+            context.Doctores.Add(doctore);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetDoctore", new { id = doctore.IdDoctor }, doctore);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctore(int id)
         {
-            var doctore = await _context.Doctores.FindAsync(id);
+            var doctore = await context.Doctores.FindAsync(id);
             if (doctore == null)
             {
                 return NotFound();
             }
 
-            _context.Doctores.Remove(doctore);
-            await _context.SaveChangesAsync();
+            context.Doctores.Remove(doctore);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool DoctoreExists(int id)
         {
-            return _context.Doctores.Any(e => e.IdDoctor == id);
+            return context.Doctores.Any(e => e.IdDoctor == id);
         }
     }
 }

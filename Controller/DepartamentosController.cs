@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,25 +14,27 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class DepartamentosController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
+        private readonly IMapper mapper;
 
-        public DepartamentosController(HospitalDbContext context)
+        public DepartamentosController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Departamentos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Departamento>>> GetDepartamentos()
         {
-            return await _context.Departamentos.ToListAsync();
+            return await context.Departamentos.ToListAsync();
         }
 
         // GET: api/Departamentos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Departamento>> GetDepartamento(int id)
         {
-            var departamento = await _context.Departamentos.FindAsync(id);
+            var departamento = await context.Departamentos.FindAsync(id);
 
             if (departamento == null)
             {
@@ -51,11 +54,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(departamento).State = EntityState.Modified;
+            context.Entry(departamento).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +80,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Departamento>> PostDepartamento(Departamento departamento)
         {
-            _context.Departamentos.Add(departamento);
-            await _context.SaveChangesAsync();
+            context.Departamentos.Add(departamento);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetDepartamento", new { id = departamento.IdDepartamento }, departamento);
         }
@@ -87,21 +90,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDepartamento(int id)
         {
-            var departamento = await _context.Departamentos.FindAsync(id);
+            var departamento = await context.Departamentos.FindAsync(id);
             if (departamento == null)
             {
                 return NotFound();
             }
 
-            _context.Departamentos.Remove(departamento);
-            await _context.SaveChangesAsync();
+            context.Departamentos.Remove(departamento);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool DepartamentoExists(int id)
         {
-            return _context.Departamentos.Any(e => e.IdDepartamento == id);
+            return context.Departamentos.Any(e => e.IdDepartamento == id);
         }
     }
 }

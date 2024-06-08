@@ -15,13 +15,13 @@ namespace Primer_Parcial.Controller
     [ApiController]
     public class DiagnosticosController : ControllerBase
     {
-        private readonly HospitalDbContext _context;
+        private readonly HospitalDbContext context;
 
-        public IMapper mapper { get; }
+        private readonly IMapper mapper;
 
         public DiagnosticosController(HospitalDbContext context, IMapper mapper)
         {
-            _context = context;
+            this.context = context;
             this.mapper = mapper;
         }
 
@@ -29,14 +29,14 @@ namespace Primer_Parcial.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Diagnostico>>> GetDiagnosticos()
         {
-            return await _context.Diagnosticos.ToListAsync();
+            return await context.Diagnosticos.ToListAsync();
         }
 
         // GET: api/Diagnosticos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Diagnostico>> GetDiagnostico(int id)
         {
-            var diagnostico = await _context.Diagnosticos.FindAsync(id);
+            var diagnostico = await context.Diagnosticos.FindAsync(id);
 
             if (diagnostico == null)
             {
@@ -58,11 +58,11 @@ namespace Primer_Parcial.Controller
                 return BadRequest();
             }
 
-            _context.Entry(diagnostico).State = EntityState.Modified;
+            context.Entry(diagnostico).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,8 +84,8 @@ namespace Primer_Parcial.Controller
         [HttpPost]
         public async Task<ActionResult<Diagnostico>> PostDiagnostico(Diagnostico diagnostico)
         {
-            _context.Diagnosticos.Add(diagnostico);
-            await _context.SaveChangesAsync();
+            context.Diagnosticos.Add(diagnostico);
+            await context.SaveChangesAsync();
 
             return CreatedAtAction("GetDiagnostico", new { id = diagnostico.IdDiagnostico }, diagnostico);
         }
@@ -94,21 +94,21 @@ namespace Primer_Parcial.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiagnostico(int id)
         {
-            var diagnostico = await _context.Diagnosticos.FindAsync(id);
+            var diagnostico = await context.Diagnosticos.FindAsync(id);
             if (diagnostico == null)
             {
                 return NotFound();
             }
 
-            _context.Diagnosticos.Remove(diagnostico);
-            await _context.SaveChangesAsync();
+            context.Diagnosticos.Remove(diagnostico);
+            await context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private async Task<bool> DiagnosticoExists(int id)
         {
-            return await _context.Diagnosticos.AnyAsync(e => e.IdDiagnostico == id);
+            return await context.Diagnosticos.AnyAsync(e => e.IdDiagnostico == id);
         }
     }
 }
