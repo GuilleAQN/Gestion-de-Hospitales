@@ -38,7 +38,7 @@ dotnet restore
 5. Ejecutar el proyecto:
 
 ```sh
-dotnet watch run --project "Gestion-de-Hospitales"
+dotnet watch run"
 ```
 
 ## Stack Tecnológico
