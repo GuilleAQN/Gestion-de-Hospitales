@@ -1,6 +1,6 @@
 # Sistema de Gestión de Hospitales
 
-## Participantes 👩‍🎓👨‍🎓
+## Participante 👩‍🎓
 
 <a href="https://github.com/josearmandosm/Sistema-Gestion-Funeraria-LP2-/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=josearmandosm/Sistema-Gestion-Funeraria-LP2-" />
