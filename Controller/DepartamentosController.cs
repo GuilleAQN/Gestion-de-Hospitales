@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DepartamentoExists(id))
+                if (!await DepartamentoExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool DepartamentoExists(int id)
+        private async Task<bool> DepartamentoExists(int id)
         {
-            return context.Departamentos.Any(e => e.IdDepartamento == id);
+            return await context.Departamentos.AnyAsync(e => e.IdDepartamento == id);
         }
     }
 }

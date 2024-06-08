@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TratamientoExists(id))
+                if (!await TratamientoExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool TratamientoExists(int id)
+        private async Task<bool> TratamientoExists(int id)
         {
-            return context.Tratamientos.Any(e => e.IdTratamiento == id);
+            return await context.Tratamientos.AnyAsync(e => e.IdTratamiento == id);
         }
     }
 }

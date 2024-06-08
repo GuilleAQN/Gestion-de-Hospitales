@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EstadoExists(id))
+                if (!await EstadoExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool EstadoExists(int id)
+        private async Task<bool> EstadoExists(int id)
         {
-            return context.Estados.Any(e => e.IdEstado == id);
+            return await context.Estados.AnyAsync(e => e.IdEstado == id);
         }
     }
 }

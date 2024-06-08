@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoriasCitaExists(id))
+                if (!await CategoriasCitaExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool CategoriasCitaExists(int id)
+        private async Task<bool> CategoriasCitaExists(int id)
         {
-            return context.CategoriasCitas.Any(e => e.IdCategoriaCita == id);
+            return await context.CategoriasCitas.AnyAsync(e => e.IdCategoriaCita == id);
         }
     }
 }

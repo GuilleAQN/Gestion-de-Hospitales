@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DoctoreExists(id))
+                if (!await DoctoreExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool DoctoreExists(int id)
+        private async Task<bool> DoctoreExists(int id)
         {
-            return context.Doctores.Any(e => e.IdDoctor == id);
+            return await context.Doctores.AnyAsync(e => e.IdDoctor == id);
         }
     }
 }

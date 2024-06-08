@@ -65,7 +65,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CitaExists(id))
+                if (!await CitaExists(id))
                 {
                     return NotFound();
                 }
@@ -105,9 +105,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool CitaExists(int id)
+        private async Task<bool> CitaExists(int id)
         {
-            return context.Citas.Any(e => e.IdCita == id);
+            return await context.Citas.AnyAsync(e => e.IdCita == id);
         }
     }
 }

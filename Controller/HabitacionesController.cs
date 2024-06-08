@@ -68,7 +68,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HabitacioneExists(id))
+                if (!await HabitacioneExists(id))
                 {
                     return NotFound();
                 }
@@ -110,9 +110,9 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private bool HabitacioneExists(int id)
+        private async Task<bool> HabitacioneExists(int id)
         {
-            return context.Habitaciones.Any(e => e.IdHabitacion == id);
+            return await context.Habitaciones.AnyAsync(e => e.IdHabitacion == id);
         }
     }
 }
