@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Primer_Parcial.DTOs.Doctor;
 using Primer_Parcial.Models;
 
 namespace Primer_Parcial.Controller
@@ -25,9 +26,11 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Doctores
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Doctore>>> GetDoctores()
+        public async Task<ActionResult<IEnumerable<DoctorGetDTO>>> GetDoctores()
         {
-            return await context.Doctores.ToListAsync();
+            var doctorList = await context.Doctores.ToListAsync();
+            var doctoresDto = mapper.Map<IEnumerable<DoctorGetDTO>>(doctorList);
+            return Ok(doctoresDto);
         }
 
         // GET: api/Doctores/5

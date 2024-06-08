@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Primer_Parcial.DTOs.Cita;
 using Primer_Parcial.Models;
 
 namespace Primer_Parcial.Controller
@@ -25,9 +26,11 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Citas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cita>>> GetCitas()
+        public async Task<ActionResult<IEnumerable<CitaGetDTO>>> GetCitas()
         {
-            return await context.Citas.ToListAsync();
+            var citaList = await context.Citas.ToListAsync();
+            var citasDto = mapper.Map<IEnumerable<CitaGetDTO>>(citaList);
+            return Ok(citasDto);
         }
 
         // GET: api/Citas/5

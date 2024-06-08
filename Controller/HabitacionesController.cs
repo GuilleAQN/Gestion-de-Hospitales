@@ -27,9 +27,11 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Habitaciones
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Habitacione>>> GetHabitaciones()
+        public async Task<ActionResult<IEnumerable<HabitacionGetDTO>>> GetHabitaciones()
         {
-            return await context.Habitaciones.ToListAsync();
+            var habitacionList = await context.Habitaciones.ToListAsync();
+            var habitacionesDto = mapper.Map<IEnumerable<HabitacionGetDTO>>(habitacionList);
+            return Ok(habitacionesDto);
         }
 
         // GET: api/Habitaciones/5

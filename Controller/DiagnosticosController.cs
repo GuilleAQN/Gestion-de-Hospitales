@@ -27,9 +27,11 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Diagnosticos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Diagnostico>>> GetDiagnosticos()
+        public async Task<ActionResult<IEnumerable<DiagnosticoGetDTO>>> GetDiagnosticos()
         {
-            return await context.Diagnosticos.ToListAsync();
+            var diagnosticoList = await context.Diagnosticos.ToListAsync();
+            var diagnosticosDto = mapper.Map<IEnumerable<DiagnosticoGetDTO>>(diagnosticoList);
+            return Ok(diagnosticosDto);
         }
 
         // GET: api/Diagnosticos/5

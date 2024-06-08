@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Primer_Parcial.DTOs.CategoriasCita;
 using Primer_Parcial.Models;
 
 namespace Primer_Parcial.Controller
@@ -25,9 +26,11 @@ namespace Primer_Parcial.Controller
 
         // GET: api/CategoriasCitas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoriasCita>>> GetCategoriasCitas()
+        public async Task<ActionResult<IEnumerable<CategoriaCitaGetDTO>>> GetCategoriasCitas()
         {
-            return await context.CategoriasCitas.ToListAsync();
+            var categoriaCitaList = await context.CategoriasCitas.ToListAsync();
+            var categoriasCitasDto = mapper.Map<IEnumerable<CategoriaCitaGetDTO>>(categoriaCitaList);
+            return Ok(categoriasCitasDto);
         }
 
         // GET: api/CategoriasCitas/5
