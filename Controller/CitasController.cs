@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Cita;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Citas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CitaGetDTO>>> GetCitas()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(citasDto);
         }
 
-        // GET: api/Citas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CitaGetDTO>> GetCita(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return citaDto;
         }
 
-        // PUT: api/Citas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCita(int id, Cita cita)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Citas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Cita>> PostCita(Cita cita)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetCita", new { id = cita.IdCita }, cita);
         }
 
-        // DELETE: api/Citas/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCita(int id)
         {

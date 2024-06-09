@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Tratamiento;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Tratamientos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TratamientoGetDTO>>> GetTratamientos()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(tratamientosDto);
         }
 
-        // GET: api/Tratamientos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TratamientoGetDTO>> GetTratamiento(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return tratamientoDto;
         }
 
-        // PUT: api/Tratamientos/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTratamiento(int id, Tratamiento tratamiento)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Tratamientos
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Tratamiento>> PostTratamiento(Tratamiento tratamiento)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetTratamiento", new { id = tratamiento.IdTratamiento }, tratamiento);
         }
 
-        // DELETE: api/Tratamientos/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTratamiento(int id)
         {

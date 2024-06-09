@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Paciente;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Pacientes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PacienteGetDTO>>> GetPacientes()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(pacientesDto);
         }
 
-        // GET: api/Pacientes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PacienteGetDTO>> GetPaciente(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return pacienteDto;
         }
 
-        // PUT: api/Pacientes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPaciente(int id, Paciente paciente)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Pacientes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Paciente>> PostPaciente(Paciente paciente)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetPaciente", new { id = paciente.IdPaciente }, paciente);
         }
 
-        // DELETE: api/Pacientes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePaciente(int id)
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Habitacion;
@@ -25,7 +20,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Habitaciones
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HabitacionGetDTO>>> GetHabitaciones()
         {
@@ -34,7 +28,6 @@ namespace Primer_Parcial.Controller
             return Ok(habitacionesDto);
         }
 
-        // GET: api/Habitaciones/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HabitacionGetDTO>> GetHabitacion(int id)
         {
@@ -49,8 +42,6 @@ namespace Primer_Parcial.Controller
             return habitacionDto;
         }
 
-        // PUT: api/Habitaciones/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHabitacione(int id, HabitacionUpdateDTO habitacionDto)
         {
@@ -82,8 +73,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Habitaciones
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Habitacione>> PostHabitacione(HabitacionInsertDTO habitacionDto)
         {
@@ -95,7 +84,6 @@ namespace Primer_Parcial.Controller
             return Ok(habitacion.IdHabitacion);
         }
 
-        // DELETE: api/Habitaciones/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHabitacione(int id)
         {

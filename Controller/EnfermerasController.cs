@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Enfermera;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Enfermeras
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EnfermeraGetDTO>>> GetEnfermeras()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(enfermerasDto);
         }
 
-        // GET: api/Enfermeras/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EnfermeraGetDTO>> GetEnfermera(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return enfermeraDto;
         }
 
-        // PUT: api/Enfermeras/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEnfermera(int id, Enfermera enfermera)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Enfermeras
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Enfermera>> PostEnfermera(Enfermera enfermera)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetEnfermera", new { id = enfermera.IdEnfermera }, enfermera);
         }
 
-        // DELETE: api/Enfermeras/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEnfermera(int id)
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.CategoriasCita;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/CategoriasCitas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaCitaGetDTO>>> GetCategoriasCitas()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(categoriasCitasDto);
         }
 
-        // GET: api/CategoriasCitas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoriaCitaGetDTO>> GetCategoriasCita(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return categoriaCitaDto;
         }
 
-        // PUT: api/CategoriasCitas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategoriasCita(int id, CategoriasCita categoriasCita)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/CategoriasCitas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<CategoriasCita>> PostCategoriasCita(CategoriasCita categoriasCita)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetCategoriasCita", new { id = categoriasCita.IdCategoriaCita }, categoriasCita);
         }
 
-        // DELETE: api/CategoriasCitas/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoriasCita(int id)
         {

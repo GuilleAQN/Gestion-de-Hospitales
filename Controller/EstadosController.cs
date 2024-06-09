@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Primer_Parcial.DTOs.Estado;
@@ -24,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Estados
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EstadoGetDTO>>> GetEstados()
         {
@@ -33,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(estadosDto);
         }
 
-        // GET: api/Estados/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EstadoGetDTO>> GetEstado(int id)
         {
@@ -48,8 +41,6 @@ namespace Primer_Parcial.Controller
             return estadoDto;
         }
 
-        // PUT: api/Estados/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEstado(int id, Estado estado)
         {
@@ -79,8 +70,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Estados
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Estado>> PostEstado(Estado estado)
         {
@@ -90,7 +79,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetEstado", new { id = estado.IdEstado }, estado);
         }
 
-        // DELETE: api/Estados/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstado(int id)
         {
