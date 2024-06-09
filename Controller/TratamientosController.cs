@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (tratamiento == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Tratamiento no encontrado",
+                    Detail = $"No se encontró un tratamiento con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var tratamientoDto = mapper.Map<TratamientoGetDTO>(tratamiento);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != tratamientoDto.IdTratamiento)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del tratamiento.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var tratamiento = mapper.Map<Tratamiento>(tratamientoDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await TratamientoExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Tratamiento no encontrado",
+                        Detail = $"No se encontró un tratamiento con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -87,7 +105,13 @@ namespace Primer_Parcial.Controller
             var tratamiento = await context.Tratamientos.FindAsync(id);
             if (tratamiento == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Tratamiento no encontrado",
+                    Detail = $"No se encontró un tratamiento con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Tratamientos.Remove(tratamiento);
