@@ -72,12 +72,13 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Estado>> PostEstado(Estado estado)
+        public async Task<ActionResult<Estado>> PostEstado(EstadoInsertDTO estadoDto)
         {
+            var estado = mapper.Map<Estado>(estadoDto);
             context.Estados.Add(estado);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEstado", new { id = estado.IdEstado }, estado);
+            return Ok(estado.IdEstado);
         }
 
         [HttpDelete("{id}")]

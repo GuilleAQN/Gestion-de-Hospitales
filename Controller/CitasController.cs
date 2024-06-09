@@ -72,12 +72,13 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Cita>> PostCita(Cita cita)
+        public async Task<ActionResult<Cita>> PostCita(CitaInsertDTO citaDto)
         {
+            var cita = mapper.Map<Cita>(citaDto);
             context.Citas.Add(cita);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCita", new { id = cita.IdCita }, cita);
+            return Ok(cita.IdCita);
         }
 
         [HttpDelete("{id}")]

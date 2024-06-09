@@ -72,12 +72,13 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Paciente>> PostPaciente(Paciente paciente)
+        public async Task<ActionResult<Paciente>> PostPaciente(PacienteInsertDTO pacienteDto)
         {
+            var paciente = mapper.Map<Paciente>(pacienteDto);
             context.Pacientes.Add(paciente);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPaciente", new { id = paciente.IdPaciente }, paciente);
+            return Ok(paciente.IdPaciente);
         }
 
         [HttpDelete("{id}")]
