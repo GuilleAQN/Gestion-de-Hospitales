@@ -35,16 +35,17 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Doctores/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Doctore>> GetDoctore(int id)
+        public async Task<ActionResult<DoctorGetDTO>> GetDoctor(int id)
         {
-            var doctore = await context.Doctores.FindAsync(id);
+            var doctor = await context.Doctores.FindAsync(id);
 
-            if (doctore == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return doctore;
+            var doctorDto = mapper.Map<DoctorGetDTO>(doctor);
+            return doctorDto;
         }
 
         // PUT: api/Doctores/5

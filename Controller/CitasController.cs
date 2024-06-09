@@ -35,7 +35,7 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Citas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cita>> GetCita(int id)
+        public async Task<ActionResult<CitaGetDTO>> GetCita(int id)
         {
             var cita = await context.Citas.FindAsync(id);
 
@@ -44,7 +44,8 @@ namespace Primer_Parcial.Controller
                 return NotFound();
             }
 
-            return cita;
+            var citaDto = mapper.Map<CitaGetDTO>(cita);
+            return citaDto;
         }
 
         // PUT: api/Citas/5

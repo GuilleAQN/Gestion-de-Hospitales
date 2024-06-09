@@ -35,7 +35,7 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Enfermeras/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Enfermera>> GetEnfermera(int id)
+        public async Task<ActionResult<EnfermeraGetDTO>> GetEnfermera(int id)
         {
             var enfermera = await context.Enfermeras.FindAsync(id);
 
@@ -44,7 +44,8 @@ namespace Primer_Parcial.Controller
                 return NotFound();
             }
 
-            return enfermera;
+            var enfermeraDto = mapper.Map<EnfermeraGetDTO>(enfermera);
+            return enfermeraDto;
         }
 
         // PUT: api/Enfermeras/5

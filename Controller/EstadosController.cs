@@ -35,7 +35,7 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Estados/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Estado>> GetEstado(int id)
+        public async Task<ActionResult<EstadoGetDTO>> GetEstado(int id)
         {
             var estado = await context.Estados.FindAsync(id);
 
@@ -44,7 +44,8 @@ namespace Primer_Parcial.Controller
                 return NotFound();
             }
 
-            return estado;
+            var estadoDto = mapper.Map<EstadoGetDTO>(estado);
+            return estadoDto;
         }
 
         // PUT: api/Estados/5

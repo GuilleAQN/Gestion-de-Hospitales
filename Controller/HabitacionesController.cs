@@ -36,16 +36,17 @@ namespace Primer_Parcial.Controller
 
         // GET: api/Habitaciones/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Habitacione>> GetHabitacione(int id)
+        public async Task<ActionResult<HabitacionGetDTO>> GetHabitacion(int id)
         {
-            var habitacione = await context.Habitaciones.FindAsync(id);
+            var habitacion = await context.Habitaciones.FindAsync(id);
 
-            if (habitacione == null)
+            if (habitacion == null)
             {
                 return NotFound();
             }
 
-            return habitacione;
+            var habitacionDto = mapper.Map<HabitacionGetDTO>(habitacion);
+            return habitacionDto;
         }
 
         // PUT: api/Habitaciones/5

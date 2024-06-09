@@ -35,16 +35,17 @@ namespace Primer_Parcial.Controller
 
         // GET: api/CategoriasCitas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoriasCita>> GetCategoriasCita(int id)
+        public async Task<ActionResult<CategoriaCitaGetDTO>> GetCategoriasCita(int id)
         {
-            var categoriasCita = await context.CategoriasCitas.FindAsync(id);
+            var categoriaCita = await context.CategoriasCitas.FindAsync(id);
 
-            if (categoriasCita == null)
+            if (categoriaCita == null)
             {
                 return NotFound();
             }
 
-            return categoriasCita;
+            var categoriaCitaDto = mapper.Map<CategoriaCitaGetDTO>(categoriaCita);
+            return categoriaCitaDto;
         }
 
         // PUT: api/CategoriasCitas/5
