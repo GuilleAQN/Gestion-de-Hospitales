@@ -99,5 +99,10 @@ namespace Primer_Parcial.Controller
         {
             return await context.Pacientes.AnyAsync(e => e.IdPaciente == id);
         }
+
+        private async Task<bool> PacienteExists(string cedula)
+        {
+            return await context.Pacientes.AnyAsync(e => e.Cedula == cedula);
+        }
     }
 }

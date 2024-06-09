@@ -59,7 +59,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await HabitacioneExists(id))
+                if (!await HabitacionExists(id))
                 {
                     return NotFound();
                 }
@@ -73,7 +73,7 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Habitacione>> PostHabitacione(HabitacionInsertDTO habitacionDto)
+        public async Task<ActionResult<Habitacione>> PostHabitacion(HabitacionInsertDTO habitacionDto)
         {
             var habitacion = mapper.Map<Habitacione>(habitacionDto);
 
@@ -84,7 +84,7 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHabitacione(int id)
+        public async Task<IActionResult> DeleteHabitacion(int id)
         {
             var habitacione = await context.Habitaciones.FindAsync(id);
             if (habitacione == null)
@@ -98,9 +98,14 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private async Task<bool> HabitacioneExists(int id)
+        private async Task<bool> HabitacionExists(int id)
         {
             return await context.Habitaciones.AnyAsync(e => e.IdHabitacion == id);
+        }
+
+        private async Task<bool> HabitacionExists(string numeroHabitacion)
+        {
+            return await context.Habitaciones.AnyAsync(e => e.Numero == numeroHabitacion);
         }
     }
 }

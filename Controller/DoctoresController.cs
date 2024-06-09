@@ -42,7 +42,7 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctore(int id, DoctorUpdateDTO doctorDto)
+        public async Task<IActionResult> PutDoctor(int id, DoctorUpdateDTO doctorDto)
         {
             if (id != doctorDto.IdDoctor)
             {
@@ -58,7 +58,7 @@ namespace Primer_Parcial.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await DoctoreExists(id))
+                if (!await DoctorExists(id))
                 {
                     return NotFound();
                 }
@@ -72,7 +72,7 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPost]
-        public async Task<ActionResult<Doctore>> PostDoctore(Doctore doctore)
+        public async Task<ActionResult<Doctore>> PostDoctor(Doctore doctore)
         {
             context.Doctores.Add(doctore);
             await context.SaveChangesAsync();
@@ -81,7 +81,7 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDoctore(int id)
+        public async Task<IActionResult> DeleteDoctor(int id)
         {
             var doctore = await context.Doctores.FindAsync(id);
             if (doctore == null)
@@ -95,9 +95,14 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        private async Task<bool> DoctoreExists(int id)
+        private async Task<bool> DoctorExists(int id)
         {
             return await context.Doctores.AnyAsync(e => e.IdDoctor == id);
+        }
+
+        private async Task<bool> DoctorExists(string cedula)
+        {
+            return await context.Doctores.AnyAsync(e => e.Cedula == cedula);
         }
     }
 }

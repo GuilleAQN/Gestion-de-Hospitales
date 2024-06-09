@@ -99,5 +99,10 @@ namespace Primer_Parcial.Controller
         {
             return await context.Enfermeras.AnyAsync(e => e.IdEnfermera == id);
         }
+
+        private async Task<bool> EnfermeraExists(string cedula)
+        {
+            return await context.Enfermeras.AnyAsync(e => e.Cedula == cedula);
+        }
     }
 }
