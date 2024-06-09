@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (doctor == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Doctor no encontrado",
+                    Detail = $"No se encontró un doctor con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var doctorDto = mapper.Map<DoctorGetDTO>(doctor);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != doctorDto.IdDoctor)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del doctor.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var doctor = mapper.Map<Doctore>(doctorDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await DoctorExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Doctor no encontrado",
+                        Detail = $"No se encontró un doctor con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -78,7 +96,13 @@ namespace Primer_Parcial.Controller
 
             if (await DoctorExists(doctor?.Cedula))
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Cédula no coincide",
+                    Detail = "La cédula proporcionada no coincide con la cédula del doctor.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Doctores.Add(doctor);
@@ -93,7 +117,13 @@ namespace Primer_Parcial.Controller
             var doctore = await context.Doctores.FindAsync(id);
             if (doctore == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Doctor no encontrado",
+                    Detail = $"No se encontró un doctor con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Doctores.Remove(doctore);

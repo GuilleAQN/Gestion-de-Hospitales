@@ -35,7 +35,13 @@ namespace Primer_Parcial.Controller
 
             if (habitacion == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Habitación no encontrada",
+                    Detail = $"No se encontró una habitación con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var habitacionDto = mapper.Map<HabitacionGetDTO>(habitacion);
@@ -47,7 +53,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != habitacionDto.IdHabitacion)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID de la habitación.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var habitacion = mapper.Map<Habitacione>(habitacionDto);
@@ -61,7 +73,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await HabitacionExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Habitación no encontrada",
+                        Detail = $"No se encontró una habitación con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -79,7 +97,13 @@ namespace Primer_Parcial.Controller
 
             if (await HabitacionExists(habitacion?.Numero))
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Número de Habitación no coincide",
+                    Detail = "El número de habitación proporcionado no coincide con el número de habitación dado.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Habitaciones.Add(habitacion);
@@ -94,7 +118,13 @@ namespace Primer_Parcial.Controller
             var habitacione = await context.Habitaciones.FindAsync(id);
             if (habitacione == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Habitación no encontrada",
+                    Detail = $"No se encontró una habitación con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Habitaciones.Remove(habitacione);

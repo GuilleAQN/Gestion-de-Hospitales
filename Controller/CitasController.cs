@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (cita == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Cita no encontrada",
+                    Detail = $"No se encontró una cita con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var citaDto = mapper.Map<CitaGetDTO>(cita);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != citaDto.IdCita)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID de la cita.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var cita = mapper.Map<Cita>(citaDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await CitaExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Cita no encontrada",
+                        Detail = $"No se encontró una cita con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -87,7 +105,13 @@ namespace Primer_Parcial.Controller
             var cita = await context.Citas.FindAsync(id);
             if (cita == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Cita no encontrada",
+                    Detail = $"No se encontró una cita con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Citas.Remove(cita);

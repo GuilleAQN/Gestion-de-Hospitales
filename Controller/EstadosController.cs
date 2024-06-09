@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (estado == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Estado no encontrado",
+                    Detail = $"No se encontró un estado con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var estadoDto = mapper.Map<EstadoGetDTO>(estado);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != estadoDto.IdEstado)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del estado.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var estado = mapper.Map<Estado>(estadoDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await EstadoExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Estado no encontrado",
+                        Detail = $"No se encontró un estado con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -87,7 +105,13 @@ namespace Primer_Parcial.Controller
             var estado = await context.Estados.FindAsync(id);
             if (estado == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Estado no encontrado",
+                    Detail = $"No se encontró un estado con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Estados.Remove(estado);

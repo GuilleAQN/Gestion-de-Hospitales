@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (paciente == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Paciente no encontrado",
+                    Detail = $"No se encontró un paciente con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var pacienteDto = mapper.Map<PacienteGetDTO>(paciente);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != pacienteDto.IdPaciente)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del paciente.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var paciente = mapper.Map<Paciente>(pacienteDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await PacienteExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Paciente no encontrado",
+                        Detail = $"No se encontró un paciente con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -78,7 +96,13 @@ namespace Primer_Parcial.Controller
 
             if (await PacienteExists(paciente?.Cedula))
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Cédula no coincide",
+                    Detail = "La cédula proporcionada no coincide con la cédula del paciente.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Pacientes.Add(paciente);
@@ -93,7 +117,13 @@ namespace Primer_Parcial.Controller
             var paciente = await context.Pacientes.FindAsync(id);
             if (paciente == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Paciente no encontrado",
+                    Detail = $"No se encontró un paciente con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Pacientes.Remove(paciente);

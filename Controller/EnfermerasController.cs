@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (enfermera == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Enfermera no encontrada",
+                    Detail = $"No se encontró una enfermera con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var enfermeraDto = mapper.Map<EnfermeraGetDTO>(enfermera);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != enfermeraDto.IdEnfermera)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID de la enfermera.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var enfermera = mapper.Map<Enfermera>(enfermeraDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await EnfermeraExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Enfermera no encontrada",
+                        Detail = $"No se encontró una enfermera con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -78,7 +96,13 @@ namespace Primer_Parcial.Controller
 
             if (await EnfermeraExists(enfermera?.Cedula))
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Cédula no coincide",
+                    Detail = "La cédula proporcionada no coincide con la cédula de la enfermera.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Enfermeras.Add(enfermera);
@@ -93,7 +117,13 @@ namespace Primer_Parcial.Controller
             var enfermera = await context.Enfermeras.FindAsync(id);
             if (enfermera == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Enfermera no encontrada",
+                    Detail = $"No se encontró una enfermera con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Enfermeras.Remove(enfermera);

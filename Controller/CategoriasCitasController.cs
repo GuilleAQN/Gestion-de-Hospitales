@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (categoriaCita == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Categoría de Cita no encontrada",
+                    Detail = $"No se encontró una categoría de cita con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var categoriaCitaDto = mapper.Map<CategoriaCitaGetDTO>(categoriaCita);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != categoriasCitaDto.IdCategoriaCita)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID de la categoría de la cita.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var categoriasCita = mapper.Map<CategoriasCita>(categoriasCitaDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await CategoriasCitaExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Categoría de Cita no encontrada",
+                        Detail = $"No se encontró una categoría de cita con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -87,7 +105,13 @@ namespace Primer_Parcial.Controller
             var categoriasCita = await context.CategoriasCitas.FindAsync(id);
             if (categoriasCita == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Categoría de Cita no encontrada",
+                    Detail = $"No se encontró una categoría de cita con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.CategoriasCitas.Remove(categoriasCita);

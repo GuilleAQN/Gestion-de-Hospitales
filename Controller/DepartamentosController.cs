@@ -34,7 +34,13 @@ namespace Primer_Parcial.Controller
 
             if (departamento == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Departamento no encontrado",
+                    Detail = $"No se encontró un departamento con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var departamentoDto = mapper.Map<DepartamentoGetDTO>(departamento);
@@ -46,7 +52,13 @@ namespace Primer_Parcial.Controller
         {
             if (id != departamentoDto.IdDepartamento)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del departamento.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var departamento = mapper.Map<Departamento>(departamentoDto);
@@ -60,7 +72,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await DepartamentoExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Departamento no encontrado",
+                        Detail = $"No se encontró un departamento con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -87,7 +105,13 @@ namespace Primer_Parcial.Controller
             var departamento = await context.Departamentos.FindAsync(id);
             if (departamento == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Departamento no encontrado",
+                    Detail = $"No se encontró un departamento con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Departamentos.Remove(departamento);

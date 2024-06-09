@@ -35,7 +35,13 @@ namespace Primer_Parcial.Controller
 
             if (diagnostico == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Diagnóstico no encontrado",
+                    Detail = $"No se encontró un diagnóstico con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var diagnosticoDto = mapper.Map<DiagnosticoGetDTO>(diagnostico);
@@ -48,7 +54,13 @@ namespace Primer_Parcial.Controller
 
             if (id != diagnosticoDto.IdDiagnostico)
             {
-                return BadRequest();
+                return BadRequest(new ProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "ID no coincide",
+                    Detail = "El ID proporcionado no coincide con el ID del diagnóstico.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             var diagnostico = mapper.Map<Diagnostico>(diagnosticoDto);
@@ -62,7 +74,13 @@ namespace Primer_Parcial.Controller
             {
                 if (!await DiagnosticoExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new ProblemDetails
+                    {
+                        Status = StatusCodes.Status404NotFound,
+                        Title = "Diagnóstico no encontrado",
+                        Detail = $"No se encontró un diagnóstico con el ID {id}.",
+                        Instance = HttpContext.Request.Path
+                    });
                 }
                 else
                 {
@@ -89,7 +107,13 @@ namespace Primer_Parcial.Controller
             var diagnostico = await context.Diagnosticos.FindAsync(id);
             if (diagnostico == null)
             {
-                return NotFound();
+                return NotFound(new ProblemDetails
+                {
+                    Status = StatusCodes.Status404NotFound,
+                    Title = "Diagnóstico no encontrado",
+                    Detail = $"No se encontró un diagnóstico con el ID {id}.",
+                    Instance = HttpContext.Request.Path
+                });
             }
 
             context.Diagnosticos.Remove(diagnostico);
