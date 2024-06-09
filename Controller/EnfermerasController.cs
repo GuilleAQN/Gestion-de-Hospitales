@@ -75,6 +75,12 @@ namespace Primer_Parcial.Controller
         public async Task<ActionResult<Enfermera>> PostEnfermera(EnfermeraInsertDTO enfermeraDto)
         {
             var enfermera = mapper.Map<Enfermera>(enfermeraDto);
+
+            if (await EnfermeraExists(enfermera?.Cedula))
+            {
+                return BadRequest();
+            }
+
             context.Enfermeras.Add(enfermera);
             await context.SaveChangesAsync();
 

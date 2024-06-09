@@ -77,6 +77,11 @@ namespace Primer_Parcial.Controller
         {
             var habitacion = mapper.Map<Habitacione>(habitacionDto);
 
+            if (await HabitacionExists(habitacion?.Numero))
+            {
+                return BadRequest();
+            }
+
             context.Habitaciones.Add(habitacion);
             await context.SaveChangesAsync();
 

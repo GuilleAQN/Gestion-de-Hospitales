@@ -75,6 +75,12 @@ namespace Primer_Parcial.Controller
         public async Task<ActionResult<Doctore>> PostDoctor(DoctorInsertDTO doctorDto)
         {
             var doctor = mapper.Map<Doctore>(doctorDto);
+
+            if (await DoctorExists(doctor?.Cedula))
+            {
+                return BadRequest();
+            }
+
             context.Doctores.Add(doctor);
             await context.SaveChangesAsync();
 
