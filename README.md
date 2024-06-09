@@ -2,8 +2,8 @@
 
 ## Participante 👩‍🎓
 
-<a href="https://github.com/josearmandosm/Sistema-Gestion-Funeraria-LP2-/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=josearmandosm/Sistema-Gestion-Funeraria-LP2-" />
+<a href="https://github.com/GuilleAQN/Gestion-de-Hospitales/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=GuilleAQN/Gestion-de-Hospitales" />
 </a>
 
 ## Configuración del Entorno
