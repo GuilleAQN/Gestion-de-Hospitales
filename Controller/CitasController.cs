@@ -42,13 +42,14 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCita(int id, Cita cita)
+        public async Task<IActionResult> PutCita(int id, CitaUpdateDTO citaDto)
         {
-            if (id != cita.IdCita)
+            if (id != citaDto.IdCita)
             {
                 return BadRequest();
             }
 
+            var cita = mapper.Map<Cita>(citaDto);
             context.Entry(cita).State = EntityState.Modified;
 
             try

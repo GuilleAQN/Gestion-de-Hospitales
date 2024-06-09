@@ -5,7 +5,7 @@ namespace Primer_Parcial.DTOs.Paciente
     public class PacienteUpdateDTO
     {
         [Required(ErrorMessage = "Id es requerido")]
-        public int InPaciente { get; set; }
+        public int IdPaciente { get; set; }
 
         [Required(ErrorMessage = "Cédula es requerido")]
         [MaxLength(11, ErrorMessage = "Cédula no puede ser mayor a 11 carácteres")]

@@ -45,13 +45,13 @@ namespace Primer_Parcial.Controller
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiagnostico(int id, DiagnosticoUpdateDTO diagnosticoDto)
         {
-            var diagnostico = mapper.Map<Diagnostico>(diagnosticoDto);
 
-            if (id != diagnostico.IdDiagnostico)
+            if (id != diagnosticoDto.IdDiagnostico)
             {
                 return BadRequest();
             }
 
+            var diagnostico = mapper.Map<Diagnostico>(diagnosticoDto);
             context.Entry(diagnostico).State = EntityState.Modified;
 
             try

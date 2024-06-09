@@ -42,13 +42,14 @@ namespace Primer_Parcial.Controller
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEstado(int id, Estado estado)
+        public async Task<IActionResult> PutEstado(int id, EstadoUpdateDTO estadoDto)
         {
-            if (id != estado.IdEstado)
+            if (id != estadoDto.IdEstado)
             {
                 return BadRequest();
             }
 
+            var estado = mapper.Map<Estado>(estadoDto);
             context.Entry(estado).State = EntityState.Modified;
 
             try

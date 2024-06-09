@@ -19,7 +19,6 @@ namespace Primer_Parcial.Controller
             this.mapper = mapper;
         }
 
-        // GET: api/Doctores
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DoctorGetDTO>>> GetDoctores()
         {
@@ -28,7 +27,6 @@ namespace Primer_Parcial.Controller
             return Ok(doctoresDto);
         }
 
-        // GET: api/Doctores/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DoctorGetDTO>> GetDoctor(int id)
         {
@@ -43,17 +41,16 @@ namespace Primer_Parcial.Controller
             return doctorDto;
         }
 
-        // PUT: api/Doctores/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctore(int id, Doctore doctore)
+        public async Task<IActionResult> PutDoctore(int id, DoctorUpdateDTO doctorDto)
         {
-            if (id != doctore.IdDoctor)
+            if (id != doctorDto.IdDoctor)
             {
                 return BadRequest();
             }
 
-            context.Entry(doctore).State = EntityState.Modified;
+            var doctor = mapper.Map<Doctore>(doctorDto);
+            context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -74,8 +71,6 @@ namespace Primer_Parcial.Controller
             return NoContent();
         }
 
-        // POST: api/Doctores
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Doctore>> PostDoctore(Doctore doctore)
         {
@@ -85,7 +80,6 @@ namespace Primer_Parcial.Controller
             return CreatedAtAction("GetDoctore", new { id = doctore.IdDoctor }, doctore);
         }
 
-        // DELETE: api/Doctores/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctore(int id)
         {
