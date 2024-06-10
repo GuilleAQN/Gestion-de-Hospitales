@@ -45,7 +45,7 @@ namespace Primer_Parcial.Controller
             }
 
             var habitacionDto = mapper.Map<HabitacionGetDTO>(habitacion);
-            return habitacionDto;
+            return Ok(habitacionDto);
         }
 
         [HttpPut("{id}")]

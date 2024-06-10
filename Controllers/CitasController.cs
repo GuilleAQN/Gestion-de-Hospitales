@@ -22,8 +22,7 @@ namespace Primer_Parcial.Controller
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CitaGetDTO>>> GetCitas()
         {
-            var citaList = await context.Citas.ToListAsync();
-            var citasDto = mapper.Map<IEnumerable<CitaGetDTO>>(citaList);
+            var citasDto = mapper.Map<IEnumerable<CitaGetDTO>>(await context.Citas.ToListAsync());
             return Ok(citasDto);
         }
 
